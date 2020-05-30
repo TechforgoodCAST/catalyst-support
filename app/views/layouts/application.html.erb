@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Catalyst Support</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body class="flex flex-col h-screen">
+    <header>
+      <nav class="bg-brand-navy border-b-8 border-brand-green">
+        <div class="outer-container py-5 flex justify-between">
+          <%= link_to root_path do %>
+            <%= image_tag('logo-white.svg', height: 24, width: 87) %>
+          <% end %>
+          <div>
+            <a href=<%= root_path %> class="text-white font-semibold underline mr-5">Home</a>
+            <a href="#" class="text-white font-semibold hover:underline mr-5">Link</a>
+            <a href="#" class="text-white font-semibold hover:underline ">Link</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="outer-container">
+        <div class="py-2 border-b">
+          <div class="inline-flex text-white text-xs font-semibold tracking-widest uppercase bg-alpha px-3 py-1 mr-1">Badge</div>
+          This is a new service – your <a href="#" class="underline">feedback</a> will help us to improve it.
+        </div>
+      </div>
+    </header>
+
+    <main class="outer-container flex-1">
+      <%= yield %>
+    </main>
+
+    <footer  class="bg-brand-navy-5">
+      <div class="outer-container py-8">
+        <%= image_tag('logo-navy.svg', height: 40, width: 123) %>
+      </div>
+    </footer>
+  </body>
+</html>
