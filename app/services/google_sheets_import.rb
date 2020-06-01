@@ -7,15 +7,15 @@ class GoogleSheetsImport
     )
   end
 
-  def create_tickets!(config, row_start: 2)
+  def import!(config, row_start: 2)
     config = JSON.parse(config, object_class: OpenStruct)
 
-    worksheet = @session.spreadsheet_by_key(config.sheet.file_id)
-                        .worksheet_by_sheet_id(config.sheet.worksheet_id)
+    worksheet = @session.spreadsheet_by_key(config.file_id)
+                        .worksheet_by_sheet_id(config.sheet_id)
 
     (row_start..worksheet.num_rows).each do |row|
       user = User.find_or_initialize_by(
-        email: worksheet[row, config.user.email].strip.downcase
+        email: worksheet[row, config.user_email].strip.downcase
       )
 
       unless user.persisted?
@@ -24,7 +24,7 @@ class GoogleSheetsImport
       end
 
       org = Organisation.find_or_create_by!(
-        name: worksheet[row, config.organisation.name]
+        name: worksheet[row, config.organisation_name]
       )
       org.update!(users: [user])
 
@@ -32,12 +32,12 @@ class GoogleSheetsImport
         user: user,
         organisation: org,
         created_at: DateTime.strptime(
-          worksheet[row, config.ticket.timestamp], '%d/%m/%Y %H:%M:%S'
+          worksheet[row, config.timestamp], '%d/%m/%Y %H:%M:%S'
         )
       )
 
       ticket.body = {}
-      config.ticket.to_h.each { |k, v| ticket.body[k] = worksheet[row, v] }
+      config.custom.to_h.each { |k, v| ticket.body[k] = worksheet[row, v] }
       ticket.save!
     end
   end
