@@ -1,0 +1,25 @@
+<div class="my-8">
+  <h1 class="font-lexenddeca text-5xl text-brand-navy mb-8"><%= @organisation.name %></h1>
+
+  <section>
+    <h2 class="font-lexenddeca text-4xl text-brand-navy">Support requests (<%= @organisation.tickets.size %>)</h2>
+    <hr>
+    <ul>
+      <%- @organisation.tickets.each do |ticket| %>
+        <li class="my-6">
+          <%= render 'tickets/ticket_card', ticket: ticket %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="font-lexenddeca text-4xl text-brand-navy">Resources & Services</h2>
+    <hr>
+    <div class="grid grid-cols-3 gap-6 my-6">
+      <div class="bg-brand-navy-5 p-4 h-32"></div>
+      <div class="bg-brand-navy-5 p-4"></div>
+      <div class="bg-brand-navy-5 p-4"></div>
+    </div>
+  </section>
+</div>

@@ -5,6 +5,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/png">
+    <link rel="shortcut icon" href="favicon-32x32.png" type="image/png">
+    <link rel="shortcut icon" href="favicon-96x96.png" type="image/png">
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -18,23 +23,28 @@
             <%= image_tag('logo-white.svg', height: 24, width: 87) %>
           <% end %>
           <div>
-            <a href=<%= root_path %> class="text-white font-semibold underline mr-5">Home</a>
-            <a href="#" class="text-white font-semibold hover:underline mr-5">Link</a>
-            <a href="#" class="text-white font-semibold hover:underline ">Link</a>
+            <%= link_to 'Home', root_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'statics', action: 'index')}" %>
+            <%= link_to 'Organisations', organisations_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'organisations', action: 'index')}" %>
+            <%= link_to 'Support requests', tickets_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'tickets', action: 'index')}" %>
           </div>
         </div>
+
+        <p><%= notice %></p>
+        <p><%= alert %></p>
       </nav>
 
       <div class="outer-container">
         <div class="py-2 border-b">
-          <div class="inline-flex text-white text-xs font-semibold tracking-widest uppercase bg-alpha px-3 py-1 mr-1">Badge</div>
-          This is a new service – your <a href="#" class="underline">feedback</a> will help us to improve it.
+          <div class="inline-flex text-white text-xs font-semibold tracking-widest uppercase bg-phase-alpha px-3 py-1 mr-1">Alpha</div>
+          This is a new service – your <a href="mailto:hello@thecatalyst.org.uk?subject=Catalyst%20Support%20Feedback" class="underline">feedback</a> will help us to improve it.
         </div>
       </div>
     </header>
 
-    <main class="outer-container flex-1">
-      <%= yield %>
+    <main class="flex-1">
+      <div class="outer-container">
+        <%= yield %>
+      </div>
     </main>
 
     <footer  class="bg-brand-navy-5">

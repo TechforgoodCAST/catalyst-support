@@ -1,0 +1,7 @@
+<ul class="my-6">
+  <%- @organisations.each do |o| %>
+    <li class="mb-2">
+      <a href="<%= organisation_path(o) %>" class="underline hover:no-underline"><%= o.name %></a>
+    </li>
+  <% end %>
+</ul>
