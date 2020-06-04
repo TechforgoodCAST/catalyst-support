@@ -8,6 +8,6 @@ class OrganisationsController < ApplicationController
   end
 
   def show
-    @organisation = Organisation.find_by(id: params[:id])
+    @organisation = Organisation.includes(:users).find_by(id: params[:id])
   end
 end

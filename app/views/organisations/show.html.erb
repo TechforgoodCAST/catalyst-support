@@ -1,25 +1,216 @@
-<div class="my-8">
-  <h1 class="font-lexenddeca text-5xl text-brand-navy mb-8"><%= @organisation.name %></h1>
 
-  <section>
-    <h2 class="font-lexenddeca text-4xl text-brand-navy">Support requests (<%= @organisation.tickets.size %>)</h2>
-    <hr>
-    <ul>
-      <%- @organisation.tickets.each do |ticket| %>
-        <li class="my-6">
-          <%= render 'tickets/ticket_card', ticket: ticket %>
-        </li>
-      <% end %>
-    </ul>
-  </section>
 
-  <section>
-    <h2 class="font-lexenddeca text-4xl text-brand-navy">Resources & Services</h2>
-    <hr>
-    <div class="grid grid-cols-3 gap-6 my-6">
-      <div class="bg-brand-navy-5 p-4 h-32"></div>
-      <div class="bg-brand-navy-5 p-4"></div>
-      <div class="bg-brand-navy-5 p-4"></div>
+<div class="md:flex">
+
+  <div class="w-full md:max-w-xs px-4 md:mb-8 md:sticky h-full py-8">
+
+    <div class="mb-4">
+      <a href=<%= organisations_path %> class="link">‹ Back to organisations</a>
     </div>
-  </section>
+
+    <h1 class="font-lexenddeca text-3xl text-brand-navy mb-6 leading-tight"><%= @organisation.name %></h1>
+
+    <ul>
+      <li class="border-b py-2 link"><a href="#summary">Summary</a></li>
+      <li class="border-b py-2 link"><a href="#support-requests">Support requests</a></li>
+      <li class="py-2 link"><a href="#support-provided">Activity</a></li>
+    </ul>
+  </div>
+
+  <div class="flex-1 mb-8 md:ml-8">
+
+    <div class="px-4 py-2 md:mt-8 bg-red-100 text-red-800">Please note that many values are currently hardcoded in this view.</div>
+
+    <section id="summary" class="pt-8">
+      <div class="bg-white border border-gray-200 shadow-md overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-4 border-b border-gray-200 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Summary
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+            Overview of the organisation.
+          </p>
+        </div>
+        <div>
+          <dl>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                About
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Location
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <select>
+                  <option>East Midlands</option>
+                  <option>East of England</option>
+                  <option>London</option>
+                  <option>North East</option>
+                  <option>North West</option>
+                  <option>South East</option>
+                  <option>South West</option>
+                  <option>West Midlands</option>
+                  <option>Yorkshire and The Humber</option>
+                </select>
+                <details class="text-xs text-gray-600">
+                  <summary class="link">Dev notes</summary>
+                  <p>
+                    "Project delivery locations will be used and clustered into to ONS England regions – records to be classified by a single value:", from Covid-19 EDA data requirements - Confidential and not for onward sharing.docx. We'll likely have to add regions for elsewhere in the UK.
+                  </p>
+                </details>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                EDA Theme
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <select class="w-full">
+                  <optgroup label="Organisations providing services and support for vulnerable people, for which there will be increased demand as a result of the COVID-19 crisis">
+                    <option>Organisations who connect with older people</option>
+                    <option>Organisations who connect with disabled people</option>
+                    <option>Organisations who provide advice and support to people who are pushed into crisis</option>
+                    <option>Organisations supporting those who are in medical care or end of life care</option>
+                  </optgroup>
+                  <optgroup label="Organisations supporting people and communities who experience disproportionate challenge and difficulties a result of the Covid-19 crisis">
+                    <option>Organisations providing essential items directly to families who are hit hardest</option>
+                    <option>Organisations who support people who experience health inequalities</option>
+                    <option>Organisations who support people who experience loneliness and social isolation</option>
+                    <option>Organisations who support people who experience poor mental health</option>
+                    <option>Organisations who support children and young people to achieve their potential</option>
+                  </optgroup>
+                  <optgroup label="Organisations whichconnect communities andsupport communities towork together to respond to Covid-19">
+                    <option>Organisations supporting local community activity, including volunteering, and community organising</option>
+                    <option>Organisations supporting community and sector infrastructure, including public information</option>
+                    <option>Organisations supporting digital, data and technology capabilities</option>
+                  </optgroup>
+                  <optgroup label="Other">
+                    <option>Please specify</option>
+                  </optgroup>
+                </select>
+                <details class="text-xs text-gray-600">
+                  <summary class="link">Dev notes</summary>
+                  <p>
+                    "The following taxonomy of priority organisations will be used – records to be classified by a single value", from Covid-19 EDA data requirements - Confidential and not for onward sharing.docx.
+                  </p>
+                </details>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Lived experience
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Unknown</em>
+                <details class="text-xs text-gray-600">
+                  <summary class="link">Dev notes</summary>
+                  <p>
+                    "The following banding will be used to indicate whether or not a majority of the leadership of applicant organisations has relevant lived experience of the issue being addressed – records to be classified by a single value: Yes (&gt;50%); No (&lt;=50%).", from Covid-19 EDA data requirements - Confidential and not for onward sharing.docx. Considerations should also be taken for signalling/recording when this snapshot was taken.
+                  </p>
+                </details>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Affiliates (<%= @organisation.users.size %>)
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <ul class="border border-gray-200 rounded-md">
+
+                  <%- @organisation.users.each do |user| %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+                      <div class="w-0 flex-1 flex items-center">
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= user.email %>
+                        </span>
+                      </div>
+                      <div class="ml-4 flex-shrink-0">
+                        <%= user.affiliations.first.try(:details) %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="support-requests" class="pt-8">
+      <div class="align-middle inline-block min-w-full shadow-md overflow-hidden sm:rounded-lg border border-gray-200">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Support requests
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+            Requests from members of this organisation for support and signposting from the Catalyst network.
+          </p>
+        </div>
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                Date
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                Source
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <%- @organisation.tickets.each do |ticket| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <div class="text-sm leading-5 font-medium text-gray-900 link"><%= ticket.created_at.strftime('%d %b %Y') %></div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <div class="text-sm leading-5 text-gray-900">Nesta form</div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Open
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="support-provided" class="py-8">
+      <div class="align-middle inline-block min-w-full shadow-md overflow-hidden sm:rounded-lg border border-gray-200">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Activity
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+            How have people affiliated with this organisation interacted with the Catalyst network?
+          </p>
+        </div>
+
+        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
+          Contacted Digital Teams on 1st April 2020.
+        </div>
+        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
+          Had a colleague contact Digital Candle on 1st April 2020.
+        </div>
+        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
+          Had a colleague sign up for but not attend the London - November 2019 (1:1 calls) Design Hop follow up event.
+        </div>
+        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
+          Had a colleague attend the London - 28th October 2019 (past) Design Hop.
+        </div>
+      </div>
+    </section>
+  </div>
 </div>

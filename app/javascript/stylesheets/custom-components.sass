@@ -32,10 +32,16 @@
   .outer-container
     @apply px-10
 
-// Layout
+@responsive
+  .sticky
+    position: -webkit-sticky
+    position: sticky
+    top: 0
+
+// Link
 // ========================================================================== //
 
 .link
-  @apply underline
+  @apply underline cursor-pointer
   &:hover
     @apply no-underline
