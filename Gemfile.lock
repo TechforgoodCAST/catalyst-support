@@ -118,6 +118,10 @@ GEM
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jwt (2.2.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -220,6 +224,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strong_password (0.0.8)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -262,6 +267,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.7.5)
   google_drive (~> 3.0.5)
   jbuilder (~> 2.7)
+  letter_opener (~> 1.7.0)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
@@ -270,6 +276,7 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
+  strong_password (~> 0.0.8)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)

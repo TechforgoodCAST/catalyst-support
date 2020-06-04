@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class User < ApplicationRecord
+class Admin < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -8,5 +8,6 @@ class User < ApplicationRecord
 
   has_many :affiliations, as: :individual
   has_many :organisations, through: :affiliations, dependent: :destroy
-  has_many :tickets
+
+  validates :password, password_strength: { use_dictionary: true }
 end

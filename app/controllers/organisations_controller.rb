@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class OrganisationsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @organisations = Organisation.order(:name)
   end

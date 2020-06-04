@@ -25,12 +25,12 @@
           <div>
             <%= link_to 'Home', root_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'statics', action: 'index')}" %>
             <%= link_to 'Organisations', organisations_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'organisations', action: 'index')}" %>
-            <%= link_to 'Support requests', tickets_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'tickets', action: 'index')}" %>
+            <%= link_to 'Support requests', tickets_path, class: "text-white font-semibold hover:underline#{active_nav?(controller: 'tickets', action: 'index')}" %>
+            <%- if admin_signed_in? %>
+              <%= link_to 'Sign out', destroy_admin_session_path, method: :delete, class: "text-white font-semibold hover:underline ml-5" %>
+            <% end %>
           </div>
         </div>
-
-        <p><%= notice %></p>
-        <p><%= alert %></p>
       </nav>
 
       <div class="outer-container">
@@ -39,10 +39,19 @@
           This is a new service – your <a href="mailto:hello@thecatalyst.org.uk?subject=Catalyst%20Support%20Feedback" class="underline">feedback</a> will help us to improve it.
         </div>
       </div>
+
+      <div class="outer-container">
+        <%- if notice %>
+          <div class="px-4 py-2 mt-4 bg-indigo-100 text-indigo-800"><%= notice %></div>
+        <% end %>
+        <%- if alert %>
+          <div class="px-4 py-2 mt-4 bg-red-100 text-red-800"><%= alert %></div>
+        <% end %>
+      </div>
     </header>
 
     <main class="flex-1">
-      <div class="outer-container">
+      <div class="outer-container h-full">
         <%= yield %>
       </div>
     </main>

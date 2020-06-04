@@ -2,5 +2,5 @@
 
 class Affiliation < ApplicationRecord
   belongs_to :organisation
-  belongs_to :user
+  belongs_to :individual, polymorphic: true
 end

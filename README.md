@@ -3,7 +3,7 @@
 ## Importing data
 
 ```ruby
-GoogleSheetImport.new.import!(ENV['MY_CONFIG_JSON_STRING'])
+GoogleSheetsImport.new.import!(ENV['MY_CONFIG_JSON_STRING'])
 ```
 
 Below is the structure of the config JSON the `#import!` method expects - remember to convert the JSON to a string. The integers - i.e. `"user_email": 2` - indicate the column number from the sheet to import. In the example below column 2 contains the email addresses of users you'd like to import.
