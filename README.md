@@ -1,6 +1,25 @@
 # Catalyst Support
 
-## Importing data
+## Getting started
+
+These instructions will get a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+[Ruby v2.7.1](https://www.ruby-lang.org), [Bundler](https://bundler.io/), [PostgreSQL](https://www.postgresql.org/), [NodeJS](https://nodejs.org/) and [Yarn](https://yarnpkg.com/).
+
+### Install the app
+
+1. `git clone https://github.com/TechforgoodCAST/catalyst-support.git`
+2. `cd catalyst-support`
+3. `bundle install`
+4. `yarn install`
+
+### Configure your editor
+
+To ensure consistency in code style configure your editor to work with [Solargraph](https://github.com/castwide/solargraph#using-solargraph) to benefit from intellisense and linting against the [Ruby Style Guide](https://rubystyle.guide) via [Rubocop](https://github.com/rubocop-hq/rubocop) (which Solargraph includes by default).
+
+### Importing data
 
 ```ruby
 GoogleSheetsImport.new.import!(ENV['MY_CONFIG_JSON_STRING'])
