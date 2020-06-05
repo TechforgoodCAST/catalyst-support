@@ -57,7 +57,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem 'airrecord', '~> 1'
 gem 'devise', '~> 4.7.1'
 gem 'google_drive', '~> 3.0.5'
 gem 'strong_password', '~> 0.0.8'
-gem 'airrecord', '~> 1'
