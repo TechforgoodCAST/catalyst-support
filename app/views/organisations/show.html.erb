@@ -11,9 +11,10 @@
     <h1 class="font-lexenddeca text-3xl text-brand-navy mb-6 leading-tight"><%= @organisation.name %></h1>
 
     <ul>
-      <li class="border-b py-2 link"><a href="#summary">Summary</a></li>
-      <li class="border-b py-2 link"><a href="#support-requests">Support requests</a></li>
-      <li class="py-2 link"><a href="#support-provided">Activity</a></li>
+      <li class="border-b py-2"><a href="#summary" class="link" data-turbolinks="false">Summary</a></li>
+      <li class="border-b py-2"><a href="#support-requests" class="link" data-turbolinks="false">Support requests</a></li>
+      <li class="border-b py-2"><a href="#partnerships" class="link" data-turbolinks="false">Partnerships</a></li>
+      <li class="py-2"><a href="#support-provided" class="link" data-turbolinks="false">Activity</a></li>
     </ul>
   </div>
 
@@ -23,7 +24,7 @@
 
     <section id="summary" class="pt-8">
       <div class="bg-white border border-gray-200 shadow-md overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-4 border-b border-gray-200 sm:px-6">
+        <div class="px-4 py-4 border-b border-gray-200 sm:px-6 bg-gray-100">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Summary
           </h3>
@@ -35,10 +36,93 @@
           <dl>
             <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                About
+                Theme
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                <p class="link">Children and young people</p>
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Theme other
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Not provided</em>
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Digital maturity
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <select>
+                  <option>Curious</option>
+                  <option>Starting out</option>
+                  <option>Advancing</option>
+                </select>
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Anchor organisation
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                No
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Capacity of org to engage
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Not provided</em>
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Charity number
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                123456
+                <ul class="border border-gray-200 rounded-md mt-2">
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 border-b">
+                    <em class="ml-2 flex-1 w-0 truncate text-gray-600">
+                      Data for financial year ending 31 March 2019
+                    </em>
+                  </li>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 border-b">
+                    <div class="w-0 flex-1 flex items-center ml-2">
+                        Employees
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                      22
+                    </div>
+                  </li>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+                    <div class="w-0 flex-1 flex items-center ml-2">
+                        Volunteers
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                      8
+                    </div>
+                  </li>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+                    <div class="w-0 flex-1 flex items-center ml-2">
+                        Income
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                      £1,100,000
+                    </div>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Company number
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                123456
               </dd>
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -67,7 +151,37 @@
             </div>
             <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                EDA Theme
+                Affiliates (<%= @organisation.users.size %>)
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <ul class="border border-gray-200 rounded-md">
+
+                  <%- @organisation.users.each do |user| %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+                      <div class="w-0 flex-1 flex items-center">
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= user.email %>
+                        </span>
+                      </div>
+                      <div class="ml-4 flex-shrink-0">
+                        <%= user.affiliations.first.try(:details) %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:px-6 border border-gray-200 bg-gray-100">
+              <h4 class="text-md leading-6 font-medium text-gray-900">
+                Funder reporting
+              </h4>
+              <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+                Data required for COVID-19 External Delegation Agreement (EDA).
+              </p>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                COVID-19 Theme & Catagory
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
                 <select class="w-full">
@@ -103,10 +217,21 @@
             </div>
             <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                Lived experience
+                COVID-19 intended impact
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                <em class="text-gray-600">Unknown</em>
+                <ul class="list-disc ml-4">
+                  <li>Social connections and relationships are supported to help prevent chronic loneliness and isolation</li>
+                  <li>Charities are more digitally capable and able to introduce new ways of working and connecting communities</li>
+                </ul>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                % leadership with lived experience
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Not provided</em>
                 <details class="text-xs text-gray-600">
                   <summary class="link">Dev notes</summary>
                   <p>
@@ -117,24 +242,26 @@
             </div>
             <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                Affiliates (<%= @organisation.users.size %>)
+                Works with people from a particular ethnic background
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                <ul class="border border-gray-200 rounded-md">
-
-                  <%- @organisation.users.each do |user| %>
-                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
-                      <div class="w-0 flex-1 flex items-center">
-                        <span class="ml-2 flex-1 w-0 truncate">
-                          <%= user.email %>
-                        </span>
-                      </div>
-                      <div class="ml-4 flex-shrink-0">
-                        <%= user.affiliations.first.try(:details) %>
-                      </div>
-                    </li>
-                  <% end %>
-                </ul>
+                E.g. African; Any other Asian background; Any other Black/African/Caribbean
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Works with LGBT people
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Not provided</em>
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm leading-5 font-medium text-gray-600">
+                Works with disabled people
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+                <em class="text-gray-600">Not provided</em>
               </dd>
             </div>
           </dl>
@@ -144,7 +271,7 @@
 
     <section id="support-requests" class="pt-8">
       <div class="align-middle inline-block min-w-full shadow-md overflow-hidden sm:rounded-lg border border-gray-200">
-        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6 bg-gray-100">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Support requests
           </h3>
@@ -187,9 +314,26 @@
       </div>
     </section>
 
+    <section id="partnerships" class="pt-8">
+      <div class="align-middle inline-block min-w-full shadow-md overflow-hidden sm:rounded-lg border border-gray-200">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6 bg-gray-100">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Partnerships
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-600">
+            The partnerships this organisation is a member of.
+          </p>
+        </div>
+        <div class="border-b border-gray-200 px-6 py-4 text-sm">
+          <p class="font-medium text-gray-900"><span class="link">Emergency digital pivot</span> (Complete)</p>
+          <p class="text-gray-600">Action West London, Superhighways and We Are Open Co-op</p>
+        </div>
+      </div>
+    </section>
+
     <section id="support-provided" class="py-8">
       <div class="align-middle inline-block min-w-full shadow-md overflow-hidden sm:rounded-lg border border-gray-200">
-        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6 bg-gray-100">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Activity
           </h3>
@@ -197,7 +341,6 @@
             How have people affiliated with this organisation interacted with the Catalyst network?
           </p>
         </div>
-
         <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
           Contacted Digital Teams on 1st April 2020.
         </div>
