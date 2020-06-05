@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_191945) do
+ActiveRecord::Schema.define(version: 2020_06_05_113453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actions", force: :cascade do |t|
+    t.bigint "potential_action_id", null: false
+    t.bigint "organisation_id", null: false
+    t.jsonb "details"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organisation_id"], name: "index_actions_on_organisation_id"
+    t.index ["potential_action_id"], name: "index_actions_on_potential_action_id"
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string "first_name"
@@ -44,6 +56,21 @@ ActiveRecord::Schema.define(version: 2020_06_03_191945) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "domain"
+    t.index ["domain"], name: "index_organisations_on_domain", unique: true
+  end
+
+  create_table "platforms", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "potential_actions", force: :cascade do |t|
+    t.string "name"
+    t.string "format"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -71,6 +98,8 @@ ActiveRecord::Schema.define(version: 2020_06_03_191945) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "actions", "organisations"
+  add_foreign_key "actions", "potential_actions"
   add_foreign_key "affiliations", "organisations"
   add_foreign_key "tickets", "organisations"
   add_foreign_key "tickets", "users"

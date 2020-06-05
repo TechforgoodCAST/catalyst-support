@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  potential_action: one
+  organisation: one
+  data: 
+  start_time: 2020-06-05 09:58:01
+  end_time: 2020-06-05 09:58:01
+
+two:
+  potential_action: two
+  organisation: two
+  data: 
+  start_time: 2020-06-05 09:58:01
+  end_time: 2020-06-05 09:58:01

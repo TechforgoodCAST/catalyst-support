@@ -60,3 +60,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.7.1'
 gem 'google_drive', '~> 3.0.5'
 gem 'strong_password', '~> 0.0.8'
+gem 'airrecord', '~> 1'

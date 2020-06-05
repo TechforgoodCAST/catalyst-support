@@ -41,4 +41,23 @@ class GoogleSheetsImport
       ticket.save!
     end
   end
+
+  def extract(config, row_start: 2)
+    config = JSON.parse(config, object_class: OpenStruct)
+
+    worksheet = @session.spreadsheet_by_key(config.file_id)
+                        .worksheet_by_sheet_id(config.sheet_id)
+    
+    ret = []
+    
+    (row_start..worksheet.num_rows).each do |row|
+      unless worksheet[row, 1].empty?
+        ret_row = {}
+        config.fields.to_h.each { |k, v| ret_row[k] = worksheet[row, v] }
+        ret << ret_row
+      end
+    end
+    
+    return ret
+  end
 end

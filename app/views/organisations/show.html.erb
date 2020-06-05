@@ -5,7 +5,7 @@
   <div class="w-full md:max-w-xs px-4 md:mb-8 md:sticky h-full py-8">
 
     <div class="mb-4">
-      <a href=<%= organisations_path %> class="link">‹ Back to organisations</a>
+      <a href="<%= organisations_path %>" class="link">‹ Back to organisations</a>
     </div>
 
     <h1 class="font-lexenddeca text-3xl text-brand-navy mb-6 leading-tight"><%= @organisation.name %></h1>
@@ -341,18 +341,11 @@
             How have people affiliated with this organisation interacted with the Catalyst network?
           </p>
         </div>
-        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
-          Contacted Digital Teams on 1st April 2020.
-        </div>
-        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
-          Had a colleague contact Digital Candle on 1st April 2020.
-        </div>
-        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
-          Had a colleague sign up for but not attend the London - November 2019 (1:1 calls) Design Hop follow up event.
-        </div>
-        <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
-          Had a colleague attend the London - 28th October 2019 (past) Design Hop.
-        </div>
+        <%- @organisation.actions.each do |action| %>
+          <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
+            <b><%= action.start_time.strftime("%Y %b %d") %>:</b> <%= action.getString() %>
+          </div>
+        <% end %>
       </div>
     </section>
   </div>
