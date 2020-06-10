@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_140241) do
+ActiveRecord::Schema.define(version: 2020_06_10_154932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.bigint "potential_action_id", null: false
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id"
     t.jsonb "details"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_140241) do
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.bigint "organisation_id", null: false
+    t.bigint "organisation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organisation_id"], name: "index_people_on_organisation_id"

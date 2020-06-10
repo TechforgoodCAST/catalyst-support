@@ -47,9 +47,9 @@ class GoogleSheetsImport
 
     worksheet = @session.spreadsheet_by_key(config.file_id)
                         .worksheet_by_sheet_id(config.sheet_id)
-    
+
     ret = []
-    
+
     (row_start..worksheet.num_rows).each do |row|
       unless worksheet[row, 1].empty?
         ret_row = {}
@@ -57,7 +57,7 @@ class GoogleSheetsImport
         ret << ret_row
       end
     end
-    
-    return ret
+
+    ret
   end
 end
