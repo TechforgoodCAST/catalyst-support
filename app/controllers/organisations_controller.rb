@@ -9,5 +9,6 @@ class OrganisationsController < ApplicationController
 
   def show
     @organisation = Organisation.includes(:users).find_by(id: params[:id])
+    @organisation.fetch_cc_data
   end
 end

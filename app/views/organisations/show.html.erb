@@ -83,11 +83,13 @@
                 Charity number
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                123456
+                <%= @organisation.charity_number || '<em class="text-gray-600">Not known</em>'.html_safe %>
+                
+				<% if @organisation.charity_number %>
                 <ul class="border border-gray-200 rounded-md mt-2">
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 border-b">
                     <em class="ml-2 flex-1 w-0 truncate text-gray-600">
-                      Data for financial year ending 31 March 2019
+                      Data for financial year ending <%= @organisation.income_fy&.strftime("%e %B %Y") %>
                     </em>
                   </li>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 border-b">
@@ -95,7 +97,7 @@
                         Employees
                     </div>
                     <div class="ml-4 flex-shrink-0">
-                      22
+                      <%= @organisation.employee_count || '<em class="text-gray-600">Not known</em>'.html_safe %>
                     </div>
                   </li>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
@@ -103,7 +105,7 @@
                         Volunteers
                     </div>
                     <div class="ml-4 flex-shrink-0">
-                      8
+                      <%= @organisation.volunteer_count || '<em class="text-gray-600">Not known</em>'.html_safe %>
                     </div>
                   </li>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
@@ -111,10 +113,11 @@
                         Income
                     </div>
                     <div class="ml-4 flex-shrink-0">
-                      £1,100,000
+                       <%= number_to_currency(@organisation.income, unit: '£', precision: 0) || '<em class="text-gray-600">Not known</em>'.html_safe %>
                     </div>
                   </li>
                 </ul>
+            	<% end %>
               </dd>
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -122,7 +125,7 @@
                 Company number
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                123456
+                <%= @organisation.company_number || '<em class="text-gray-600">Not known</em>'.html_safe %>
               </dd>
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -130,17 +133,7 @@
                 Location
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                <select>
-                  <option>East Midlands</option>
-                  <option>East of England</option>
-                  <option>London</option>
-                  <option>North East</option>
-                  <option>North West</option>
-                  <option>South East</option>
-                  <option>South West</option>
-                  <option>West Midlands</option>
-                  <option>Yorkshire and The Humber</option>
-                </select>
+                <%= @organisation.region %>
                 <details class="text-xs text-gray-600">
                   <summary class="link">Dev notes</summary>
                   <p>
@@ -181,7 +174,7 @@
             </div>
             <div class="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                COVID-19 Theme & Catagory
+                COVID-19 Theme &amp; Category
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
                 <select class="w-full">
@@ -343,7 +336,7 @@
         </div>
         <%- @organisation.actions.each do |action| %>
           <div class="border-b border-gray-200 px-6 py-4 text-sm leading-5 font-medium text-gray-900">
-            <b><%= action.start_time.strftime("%Y %b %d") %>:</b> <%= action.getString() %>
+            <b><%= action.start_time.strftime("%Y %b %d") %>:</b> <%= action.get_string() %>
           </div>
         <% end %>
       </div>

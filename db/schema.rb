@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_05_113453) do
+ActiveRecord::Schema.define(version: 2020_06_10_140241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,9 @@ ActiveRecord::Schema.define(version: 2020_06_05_113453) do
     t.datetime "end_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "person_id"
     t.index ["organisation_id"], name: "index_actions_on_organisation_id"
+    t.index ["person_id"], name: "index_actions_on_person_id"
     t.index ["potential_action_id"], name: "index_actions_on_potential_action_id"
   end
 
@@ -42,14 +44,24 @@ ActiveRecord::Schema.define(version: 2020_06_05_113453) do
   end
 
   create_table "affiliations", force: :cascade do |t|
+    t.bigint "individual_id", null: false
     t.bigint "organisation_id", null: false
     t.string "details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "individual_id", null: false
     t.string "individual_type", default: "User", null: false
     t.index ["individual_id", "individual_type"], name: "index_affiliations_on_individual_id_and_individual_type"
+    t.index ["individual_id"], name: "index_affiliations_on_individual_id"
     t.index ["organisation_id"], name: "index_affiliations_on_organisation_id"
+  end
+
+  create_table "charity_domain_lookups", force: :cascade do |t|
+    t.string "regno"
+    t.string "name"
+    t.string "email_domain"
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
+    t.string "web_domain"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -57,7 +69,24 @@ ActiveRecord::Schema.define(version: 2020_06_05_113453) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "domain"
+    t.string "charity_number"
+    t.string "company_number"
+    t.jsonb "location"
+    t.string "audience"
+    t.jsonb "subsector"
+    t.integer "maturity"
+    t.boolean "anchor_org"
     t.index ["domain"], name: "index_organisations_on_domain", unique: true
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.bigint "organisation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organisation_id"], name: "index_people_on_organisation_id"
   end
 
   create_table "platforms", force: :cascade do |t|
@@ -99,8 +128,11 @@ ActiveRecord::Schema.define(version: 2020_06_05_113453) do
   end
 
   add_foreign_key "actions", "organisations"
+  add_foreign_key "actions", "people"
   add_foreign_key "actions", "potential_actions"
   add_foreign_key "affiliations", "organisations"
+  add_foreign_key "affiliations", "users", column: "individual_id"
+  add_foreign_key "people", "organisations"
   add_foreign_key "tickets", "organisations"
   add_foreign_key "tickets", "users"
 end
