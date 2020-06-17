@@ -7,6 +7,5 @@ Rails.application.routes.draw do
 
   authenticate :admin do
     resources :organisations, only: %i[index show]
-    resources :tickets, only: :index
   end
 end

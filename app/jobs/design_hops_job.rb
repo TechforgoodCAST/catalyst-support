@@ -8,41 +8,25 @@ class DesignHopsJob < ApplicationJob
 
     @hop_attendees.all.each do |record|
       domain = record['Email'].split('@').last.strip
-      org_name = record['Organisation name'].strip
+      org_name = record['Organisation name']&.strip
 
-      # Create new org
-      @org = Organisation.find_by({ name: org_name }) || Organisation.find_by({ domain: domain })
-      if @org.nil?
-        @org = Organisation.create!(
-          name: org_name,
-          domain: domain
-        )
-        @org.get_charity_number
+      org = Organisation.new_or_reconcile(domain_or_email: domain, name: org_name)
+
+      if org.new_record? && org_name.present?
+        org.name = org_name
+        org.save!
       end
 
-      # Create new org
-      @person = Person.find_by({ email: record['Email'] })
-      if @person.nil?
-        @person = Person.create!(
-          first_name: record['First name'],
-          last_name: record['Last name'],
-          email: record['Email'],
-          organisation: @org
-        )
-      end
+      next if org.new_record?
 
-      # Record action
-      Action.create!(
-        potential_action: PotentialAction.find(1),
-        organisation_id: @org.id,
-        person_id: @person.id,
-        details: {
-          person_name: record['First name'] + ' ' + record['Last name'],
-          hop: record['Which design hop are you applying to join?'].first
-        },
-        start_time: record.created_at,
-        end_time: record.created_at
-      )
+      create_affiliation(org, record['Email'])
+
+      action = build_action('Signed Up For Design Hop', org, record.created_at)
+      action.details = {
+        name: "#{record['First name']} #{record['Last name']}",
+        email: record['Email']
+      }
+      action.save!
     end
   end
 end

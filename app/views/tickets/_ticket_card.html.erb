@@ -1,7 +1,0 @@
-<em><%= link_to ticket.organisation.name, ticket.organisation %></em>
-<h2 class="font-lexenddeca text-2xl text-brand-navy"><%= ticket.created_at %> (<%= time_ago_in_words(ticket.created_at) %> ago)</h2>
-<p class="mb-3 text-sm">From <%= ticket.user.email %></p>
-<%- ticket.body.each do |k, v| %>
-  <p><strong><%= k.titleize %></strong></p>
-  <p><%= v %></p>
-<% end %>

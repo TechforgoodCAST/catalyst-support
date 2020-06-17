@@ -9,26 +9,15 @@ class ServiceRecipesJob < ApplicationJob
     @service_recipes.all(filter: "{Recipe progress} = 'Step 10: Published'").each do |record|
       org_name = record['Charity / org'].strip
 
-      # Create new org
-      @org = Organisation.find_by({ name: org_name })
-      if @org.nil?
-        @org = Organisation.create(
-          name: org_name
-        )
-        @org.get_charity_number
+      org = Organisation.new_or_reconcile(name: org_name)
+
+      if org.new_record? && org_name.present?
+        org.name = org_name
+        org.save!
       end
 
-      # Record action
-      Action.create(
-        potential_action: PotentialAction.find(2),
-        organisation_id: @org.id,
-        person_id: nil,
-        start_time: record.created_at,
-        end_time: record.created_at,
-        details: {
-          recipe_name: record['Name of the thing']
-        }
-      )
+      action = build_action('Published A Service Recipe', org, record.created_at)
+      action.save!
     end
   end
 end

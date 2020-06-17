@@ -1,7 +1,33 @@
-<ul class="my-6">
-  <%- @organisations.each do |o| %>
-    <li class="mb-2">
-      <a href="<%= organisation_path(o) %>" class="underline hover:no-underline"><%= o.name %></a>
-    </li>
-  <% end %>
-</ul>
+<div class="md:flex">
+
+  <div class="w-full md:max-w-xs px-4 md:mb-8 md:sticky h-full py-8">
+    <h1 class="font-lexenddeca text-3xl text-brand-navy mb-6 leading-tight">Organisations (<%= @organisations.count %>)</h1>
+
+    <%= search_form_for @q do |f| %>
+      <%= f.label 'Filter organisations by action', class: "form-label" %>
+      <details class="mb-2 text-sm">
+        <summary><span class="link">View potential actions</span></summary>
+        <ul class="list-disc ml-6 text-xs">
+          <%- PotentialAction.all.each do |action| %>
+            <li><%= action.name %></li>
+          <% end %>
+        </ul>
+      </details>
+      <%= f.search_field :actions_potential_action_name_cont, collection: PotentialAction.all, class: "form-input-text mb-4" %>
+
+      <%= f.submit 'Filter', class: 'link' %>
+      <%= link_to 'Reset', organisations_path, class: 'link' %>
+    <% end %>
+  </div>
+
+  <div class="flex-1 mb-8 md:ml-8">
+    <ul class="my-8">
+      <%- @organisations.each do |o| %>
+        <li class="mb-2">
+          <a href="<%= organisation_path(o) %>" class="underline hover:no-underline"><%= o.name %></a>
+          <%= o.for_review ? '(For review)' : '' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

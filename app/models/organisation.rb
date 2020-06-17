@@ -1,14 +1,37 @@
 # frozen_string_literal: true
 
 class Organisation < ApplicationRecord
+  extend Reconcile
+
   has_many :affiliations
   has_many :admins, through: :affiliations, source: :individual, source_type: 'Admin', dependent: :destroy
   has_many :users, through: :affiliations, source: :individual, source_type: 'User', dependent: :destroy
-  has_many :tickets
-  has_many :actions
+  has_many :actions, dependent: :destroy
 
   attr_accessor :employee_count, :volunteer_count, :income, :income_fy, :region, :beneficiary
 
+  before_validation :set_slug
+
+  validates :name, presence: true
+
+  def to_param
+    slug
+  end
+
+  # TODO: avoid incrementing slug when reconciling
+  def generate_slug(num = 1)
+    slug = name.parameterize
+    slug += "-#{num}" if num > 1
+    return slug unless Organisation.find_by(slug: slug)
+
+    generate_slug(num + 1)
+  end
+
+  def set_slug
+    self[:slug] = generate_slug
+  end
+
+  # TODO: refactor to use org_ids and possibly drop domain on org
   def get_charity_number
     return self.charity_number if self.charity_number
 
@@ -71,7 +94,7 @@ class Organisation < ApplicationRecord
     }
     cb_resp = Faraday.post('https://charitybase.uk/api/graphql', cb_form_params.to_json, {
                              'Content-Type' => 'application/json',
-                             'Authorization' => 'Apikey 41f6fde1-7ab2-47bd-a069-39112c1d4339'
+                             'Authorization' => "Apikey #{ENV['CHARITY_BASE_API_KEY']}"
                            })
     cb_data = JSON.parse(cb_resp.body)['data']['CHC']['getCharities']['list'][0]
 

@@ -6,7 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <title>Catalyst Support</title>
+    <title><%= "#{yield(:title)} | " if content_for?(:title) %>Catalyst Support</title>
 
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="../favicon-16x16.png" type="image/png">
@@ -27,8 +27,7 @@
           <% end %>
           <div>
             <%= link_to 'Home', root_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'statics', action: 'index')}" %>
-            <%= link_to 'Organisations', organisations_path, class: "text-white font-semibold hover:underline mr-5#{active_nav?(controller: 'organisations', action: 'index')}" %>
-            <%= link_to 'Support requests', tickets_path, class: "text-white font-semibold hover:underline#{active_nav?(controller: 'tickets', action: 'index')}" %>
+            <%= link_to 'Organisations', organisations_path, class: "text-white font-semibold hover:underline#{active_nav?(controller: 'organisations', action: 'index')}" %>
             <%- if admin_signed_in? %>
               <%= link_to 'Sign out', destroy_admin_session_path, method: :delete, class: "text-white font-semibold hover:underline ml-5" %>
             <% end %>

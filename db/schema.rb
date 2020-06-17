@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_154932) do
+ActiveRecord::Schema.define(version: 2020_06_10_195213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,9 @@ ActiveRecord::Schema.define(version: 2020_06_10_154932) do
     t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
     t.string "web_domain"
+    t.string "slug"
+    t.index ["email_domain"], name: "index_charity_domain_lookups_on_email_domain"
+    t.index ["web_domain"], name: "index_charity_domain_lookups_on_web_domain"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -76,7 +79,13 @@ ActiveRecord::Schema.define(version: 2020_06_10_154932) do
     t.jsonb "subsector"
     t.integer "maturity"
     t.boolean "anchor_org"
+    t.string "slug", null: false
+    t.boolean "for_review", default: false
+    t.jsonb "org_ids", default: []
+    t.jsonb "potential_org_ids", default: []
+    t.jsonb "alternate_names", default: []
     t.index ["domain"], name: "index_organisations_on_domain", unique: true
+    t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
   create_table "people", force: :cascade do |t|
@@ -102,17 +111,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_154932) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "tickets", force: :cascade do |t|
-    t.bigint "organisation_id"
-    t.bigint "user_id", null: false
-    t.jsonb "body"
-    t.string "source"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["organisation_id"], name: "index_tickets_on_organisation_id"
-    t.index ["user_id"], name: "index_tickets_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -133,6 +131,4 @@ ActiveRecord::Schema.define(version: 2020_06_10_154932) do
   add_foreign_key "affiliations", "organisations"
   add_foreign_key "affiliations", "users", column: "individual_id"
   add_foreign_key "people", "organisations"
-  add_foreign_key "tickets", "organisations"
-  add_foreign_key "tickets", "users"
 end

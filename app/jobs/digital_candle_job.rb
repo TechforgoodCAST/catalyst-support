@@ -7,50 +7,15 @@ class DigitalCandleJob < ApplicationJob
     @rows = GoogleSheetsImport.new.extract(ENV['DIGITAL_CANDLE_CONFIG'])
 
     @rows.each do |row|
-      domain = row[:email].split('@').last.strip
-      first_name = row[:name].match('^(\w+) ')[1].strip
-      last_name = row[:name].match(' (.*)$')[1].strip
+      org = Organisation.new_or_reconcile(domain_or_email: row[:email])
 
-      # Find org
-      @org = Organisation.find_by({ domain: domain })
+      next if org.new_record?
 
-      unless @org.nil?
-        # Create new person
-        @person = Person.find_by({ email: row[:email] })
-        if @person.nil?
-          @person = Person.create!(
-            first_name: first_name,
-            last_name: last_name,
-            email: row[:email],
-            organisation: @org
-          )
-        end
+      create_affiliation(org, row[:email])
 
-        # Record actions
-        Action.create!(
-          potential_action: PotentialAction.find(3),
-          organisation_id: @org.id,
-          person_id: @person.id,
-          details: {
-            person_name: row[:name]
-          },
-          start_time: row[:timestamp],
-          end_time: row[:timestamp]
-        )
-
-        Action.create!(
-          potential_action: PotentialAction.find(4),
-          organisation_id: @org.id,
-          person_id: @person.id,
-          details: {
-            person_name: row[:name],
-            intro: row[:intro],
-            intro_date: row[:intro_date]
-          },
-          start_time: row[:intro_date],
-          end_time: row[:intro_date]
-        )
-      end
+      action = build_action('Submitted Digital Candle Form', org, row[:timestamp])
+      action.details = { name: row[:name], email: row[:email] }
+      action.save!
     end
   end
 end
