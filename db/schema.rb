@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_195213) do
+ActiveRecord::Schema.define(version: 2020_06_18_122324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.bigint "potential_action_id", null: false
-    t.bigint "organisation_id"
+    t.integer "organisation_id"
     t.jsonb "details"
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "person_id"
+    t.integer "person_id"
     t.index ["organisation_id"], name: "index_actions_on_organisation_id"
     t.index ["person_id"], name: "index_actions_on_person_id"
     t.index ["potential_action_id"], name: "index_actions_on_potential_action_id"
@@ -63,17 +63,12 @@ ActiveRecord::Schema.define(version: 2020_06_10_195213) do
     t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
     t.string "web_domain"
     t.string "slug"
-    t.index ["email_domain"], name: "index_charity_domain_lookups_on_email_domain"
-    t.index ["web_domain"], name: "index_charity_domain_lookups_on_web_domain"
   end
 
   create_table "organisations", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "domain"
-    t.string "charity_number"
-    t.string "company_number"
     t.jsonb "location"
     t.string "audience"
     t.jsonb "subsector"
@@ -84,7 +79,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_195213) do
     t.jsonb "org_ids", default: []
     t.jsonb "potential_org_ids", default: []
     t.jsonb "alternate_names", default: []
-    t.index ["domain"], name: "index_organisations_on_domain", unique: true
     t.index ["slug"], name: "index_organisations_on_slug", unique: true
   end
 
@@ -92,7 +86,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_195213) do
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.bigint "organisation_id"
+    t.integer "organisation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organisation_id"], name: "index_people_on_organisation_id"

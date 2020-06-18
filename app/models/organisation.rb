@@ -31,29 +31,43 @@ class Organisation < ApplicationRecord
     self[:slug] = generate_slug
   end
 
-  # TODO: refactor to use org_ids and possibly drop domain on org
-  def get_charity_number
-    return self.charity_number if self.charity_number
+  def charity_numbers
+    {
+      'England & Wales' => ccew_number,
+      'Scotland' => oscr_number,
+      'Northern Ireland' => ccni_number
+    }
+  end
 
-    if (charity_number = CharityDomainLookup.lookup_domain(self.domain))
-      self.update!({ charity_number: charity_number })
-      return charity_number
-    end
+  def ccew_number
+    get_org_id('GB-CHC-')
+  end
 
-    nil
+  def oscr_number
+    get_org_id('GB-SC-')
+  end
+
+  def ccni_number
+    get_org_id('GB-NIC-')
+  end
+
+  def company_number
+    get_org_id('GB-COH-')
+  end
+
+  def get_org_id(prefix)
+    org_ids.find { |s| s =~ /#{prefix}/ }&.delete_prefix(prefix)
   end
 
   def fetch_cc_data
-    return unless get_charity_number
+    return unless (charity_number = ccew_number || oscr_number || ccni_number)
 
-    charity_no = get_charity_number.split('-').last.strip
-
-    ftc_resp = Faraday.get('https://findthatcharity.uk/charity/' + charity_no + '.json')
+    ftc_resp = Faraday.get('https://findthatcharity.uk/charity/' + charity_number + '.json')
     ftc_data = JSON.parse(ftc_resp.body)
     self.company_number = !ftc_data['company_number'].empty? ? ftc_data['company_number'][0]['number'] : nil
     self.income = ftc_data['latest_income']
 
-    return unless england_and_wales?
+    return unless ccew_number
 
     cb_form_params = {
       query: 'query SearchCharities($num: [ID]) {
@@ -89,7 +103,7 @@ class Organisation < ApplicationRecord
                 }
               }',
       variables: {
-        num: charity_no
+        num: charity_number
       }
     }
     cb_resp = Faraday.post('https://charitybase.uk/api/graphql', cb_form_params.to_json, {
@@ -104,9 +118,5 @@ class Organisation < ApplicationRecord
     self.income_fy = Date.parse(cb_data['finances'][0]['financialYear']['end'])
     self.region = cb_data['geo']['european_electoral_region']
     self.beneficiary = cb_data['beneficiaries'][0]['name']
-  end
-
-  def england_and_wales?
-    get_charity_number.start_with?('GB-CHC')
   end
 end

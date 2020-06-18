@@ -66,12 +66,21 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm leading-5 font-medium text-gray-600">
-                Charity number
+                Charity number/s
               </dt>
               <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                <%= @organisation.charity_number || '<em class="text-gray-600">Not known</em>'.html_safe %>
+                <% if @organisation.charity_numbers.values.none? %>
+                  <%= '<em class="text-gray-600">Not known</em>'.html_safe %>
+                <% else %>
 
-                <% if @organisation.charity_number %>
+                  <ul>
+                  <% @organisation.charity_numbers.each do |country, number| %>
+                    <% if number %>
+                    <li><%= number %> (<%= country %>)</li>
+                    <% end %>
+                  <% end %>
+                  </ul>
+
                   <ul class="border border-gray-200 rounded-md mt-2">
                     <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5 border-b">
                       <em class="ml-2 flex-1 w-0 truncate text-gray-600">
