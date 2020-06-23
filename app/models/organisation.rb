@@ -64,7 +64,7 @@ class Organisation < ApplicationRecord
 
     ftc_resp = Faraday.get('https://findthatcharity.uk/charity/' + charity_number + '.json')
     ftc_data = JSON.parse(ftc_resp.body)
-    self.company_number = !ftc_data['company_number'].empty? ? ftc_data['company_number'][0]['number'] : nil
+    if !ftc_data['company_number'].empty? then self.org_ids.push('GB-COH-' + ftc_data['company_number'][0]['number']) end
     self.income = ftc_data['latest_income']
 
     return unless ccew_number
