@@ -60,6 +60,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'airrecord', '~> 1.0.5'
 gem 'devise', '~> 4.7.1'
+gem 'omniauth-google-oauth2' 
 gem 'faraday', '~> 1.0.1'
 gem 'google_drive', '~> 3.0.5'
 gem 'ransack', '~> 2.3.2'
