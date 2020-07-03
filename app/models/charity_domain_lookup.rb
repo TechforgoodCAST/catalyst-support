@@ -44,7 +44,7 @@ class CharityDomainLookup < ApplicationRecord
     @domains = self.where(email_domain: domain).or(self.where(web_domain: domain))
 
     return nil if @domains.count == 0
-    @domains.first.regno
+    @domains
   end
 
   def set_slug
