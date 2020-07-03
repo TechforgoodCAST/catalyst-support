@@ -62,7 +62,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'catalyst-support.heroku.com' }
+  config.action_mailer.default_url_options = { host: 'catalyst-support.herokuapp.com' }
 
   ActionMailer::Base.smtp_settings = {
     user_name: ENV['SENDGRID_USERNAME'],
