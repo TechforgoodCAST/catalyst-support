@@ -237,6 +237,8 @@ GEM
     reverse_markdown (2.0.0)
       nokogiri
     rexml (3.2.4)
+    rollbar (2.18.2)
+      multi_json
     rubocop (0.85.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
@@ -307,6 +309,7 @@ GEM
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.2)
+    web-console (4.0.3)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
@@ -347,6 +350,7 @@ DEPENDENCIES
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.1)
   ransack (~> 2.3.2)
+  rollbar (~> 2.18.0)
   sass-rails (>= 6)
   selenium-webdriver
   solargraph (~> 0.39.8)
