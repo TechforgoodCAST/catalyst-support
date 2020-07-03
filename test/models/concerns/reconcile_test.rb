@@ -11,12 +11,19 @@ class ReconcileTest < ActiveSupport::TestCase
     @subject = Class.new.extend(Reconcile)
   end
 
-  def assert_build_no_match(org)
+  def assert_build_for_review(org)
     assert(org.is_a?(Organisation))
     refute(org.persisted?)
     assert(org.for_review)
-    assert_equal([], org.org_ids)
+  end
+  
+  def assert_build_no_match(org, name = nil, org_ids = [])
+    assert(org.is_a?(Organisation))
+    refute(org.persisted?)
+    assert(org.for_review)
+    assert_equal(org_ids, org.org_ids)
     assert_equal([], org.potential_org_ids)
+    assert_equal(name, org.name)
   end
 
   def assert_build_single_match(org, org_ids)
@@ -36,7 +43,7 @@ class ReconcileTest < ActiveSupport::TestCase
   end
 
   test 'org_id not provided returns new org' do
-    org = @subject.new_or_reconcile(org_id: '')
+    org = @subject.new_or_reconcile(org_id_or_regno: '')
 
     assert_build_no_match(org)
   end
@@ -60,13 +67,13 @@ class ReconcileTest < ActiveSupport::TestCase
   end
 
   test 'org_id takes precedence over domain_or_email' do
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123', domain_or_email: 'notfound.org')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123', domain_or_email: 'notfound.org')
 
     assert_equal(@org, org)
   end
 
   test 'org_id takes precedence over name' do
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123', name: 'Wrong name!')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123', name: 'Wrong name!')
 
     assert_equal(@org, org)
   end
@@ -81,9 +88,9 @@ class ReconcileTest < ActiveSupport::TestCase
 
   test 'no existing org and no lookup using org_id' \
        'builds new org for_review with no potential_org_ids' do
-    org = @subject.new_or_reconcile(org_id: 'MISSING_ID')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'UNKNOWN_ID')
 
-    assert_build_no_match(org)
+    assert_build_no_match(org, nil, ['GB-CHC-UNKNOWN_ID'])
   end
 
   test 'no existing org and no lookup using domain_or_email' \
@@ -97,7 +104,7 @@ class ReconcileTest < ActiveSupport::TestCase
        'builds new org for_review with no potential_org_ids' do
     org = @subject.new_or_reconcile(name: 'Wrong Name!')
 
-    assert_build_no_match(org)
+    assert_build_no_match(org, 'Wrong Name!')
   end
 
   ## no existing orgs + single lookup
@@ -105,7 +112,7 @@ class ReconcileTest < ActiveSupport::TestCase
   test 'no existing org and one lookup using org_id' \
        'creates new org not needing review and org_ids set' do
     @org.destroy
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
     assert_build_single_match(org, ['GB-CHC-123'])
   end
@@ -129,12 +136,12 @@ class ReconcileTest < ActiveSupport::TestCase
   ## no existing orgs + multiple lookup
 
   test 'no existing orgs and multiple lookup using org_id' \
-       'builds new org for_review with multiple potential_org_ids' do
+       'builds new org for_review' do
     @org.destroy
     @lookup.dup.save!
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
+    assert_build_for_review(org)
   end
 
   test 'no existing orgs and multiple lookup using domain_or_email' \
@@ -150,7 +157,7 @@ class ReconcileTest < ActiveSupport::TestCase
        'builds new org for_review with multiple potential_org_ids' do
     @org.destroy
     @lookup.dup.update!(regno: 'GB-SC-SC123')
-    org = @subject.new_or_reconcile(name: 'Char')
+    org = @subject.new_or_reconcile(name: 'Charity')
 
     assert_build_multiple_match(org, %w[GB-CHC-123 GB-SC-SC123])
   end
@@ -160,7 +167,7 @@ class ReconcileTest < ActiveSupport::TestCase
   test 'one existing org and no lookup using org_id ' \
        'finds existing org using org_ids' do
     @lookup.destroy
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
     assert_equal(@org, org)
   end
@@ -176,16 +183,16 @@ class ReconcileTest < ActiveSupport::TestCase
   test 'one existing org and no lookup using name ' \
        'builds new org for_review with no potential_org_ids' do
     @lookup.destroy
-    org = @subject.new_or_reconcile(domain_or_email: 'website.org')
+    org = @subject.new_or_reconcile(name: 'Charity')
 
-    assert_build_no_match(org)
+    assert_equal(@org, org)
   end
 
   ## one existing org + single lookup
 
   test 'one existing org and one lookup using org_id ' \
        'finds existing org using org_ids' do
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
     assert_equal(@org, org)
   end
@@ -209,7 +216,7 @@ class ReconcileTest < ActiveSupport::TestCase
   test 'one existing org and multiple lookup using org_id ' \
        'finds existing org using org_ids' do
     @lookup.dup.save!
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
     assert_equal(@org, org)
   end
@@ -223,11 +230,11 @@ class ReconcileTest < ActiveSupport::TestCase
   end
 
   test 'one existing org and multiple lookup using name ' \
-       'builds new org for_review with multiple potential_org_ids' do
+       'matches existing org' do
     @lookup.dup.update!(regno: 'GB-SC-SC123')
-    org = @subject.new_or_reconcile(name: 'Char')
+    org = @subject.new_or_reconcile(name: 'Charity')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-SC-SC123])
+    assert_equal(@org, org)
   end
 
   ## multiple existing orgs + no lookup
@@ -236,9 +243,9 @@ class ReconcileTest < ActiveSupport::TestCase
        'builds new org for_review with multiple potential_org_ids' do
     @lookup.destroy
     @org.dup.update!(name: 'Duplicate Charity')
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
+    assert_build_for_review(org)
   end
 
   test 'multiple existing orgs and no lookup using domain_or_email ' \
@@ -250,50 +257,33 @@ class ReconcileTest < ActiveSupport::TestCase
     assert_build_no_match(org)
   end
 
-  test 'multiple existing orgs and no lookup using name ' \
-       'builds new org for_review with no potential_org_ids' do
-    @lookup.destroy
-    @org.dup.save!
-    org = @subject.new_or_reconcile(name: 'Charity')
-
-    assert_build_no_match(org)
-  end
-
   ## multiple existing orgs + single lookup
 
   test 'multiple existing orgs and one lookup using org_id ' \
        'builds new org for_review with multiple potential_org_ids' do
     @org.dup.save!
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
+    assert_build_for_review(org)
   end
 
   test 'multiple existing orgs and one lookup using domain_or_email ' \
-       'builds new org for_review with multiple potential_org_ids' do
+       'builds new org for_review' do
     @org.dup.save!
     org = @subject.new_or_reconcile(domain_or_email: 'website.org')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
-  end
-
-  test 'multiple existing orgs and one lookup using name ' \
-       'builds new org for_review with multiple potential_org_ids' do
-    @org.dup.save!
-    org = @subject.new_or_reconcile(name: 'Charity')
-
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
+    assert_build_for_review(org)
   end
 
   ## multiple existing orgs + multiple lookup
 
   test 'multiple existing orgs and multiple lookup using org_id ' \
-       'builds new org for_review with multiple potential_org_ids' do
+       'builds new org for_review' do
     @lookup.dup.save!
     @org.dup.save!
-    org = @subject.new_or_reconcile(org_id: 'GB-CHC-123')
+    org = @subject.new_or_reconcile(org_id_or_regno: 'GB-CHC-123')
 
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
+    assert_build_for_review(org)
   end
 
   test 'multiple existing orgs and multiple lookup using domain_or_email ' \
@@ -303,14 +293,5 @@ class ReconcileTest < ActiveSupport::TestCase
     org = @subject.new_or_reconcile(domain_or_email: 'website.org')
 
     assert_build_multiple_match(org, %w[GB-CHC-123 GB-SC-SC123])
-  end
-
-  test 'multiple existing orgs and multiple lookup using name ' \
-       'builds new org for_review with multiple potential_org_ids' do
-    @lookup.dup.update!(regno: 'GB-SC-SC123')
-    @org.dup.save!
-    org = @subject.new_or_reconcile(name: 'Charity')
-
-    assert_build_multiple_match(org, %w[GB-CHC-123 GB-CHC-123])
   end
 end
