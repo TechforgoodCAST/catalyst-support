@@ -15,9 +15,9 @@ class Admin < ApplicationRecord
   def self.from_omniauth(access_token)
       data = access_token.info
       admin = Admin.where(email: data['email']).first
+      domain = data['email'].split('@').last.strip
 
-      # Uncomment the section below if you want users to be created if they don't exist
-      unless admin
+      if admin.nil? && %w(wearecast.org.uk thecatalyst.org.uk).include?(domain)
         admin = Admin.create(
           first_name: data['first_name'],
           last_name: data['last_name'],

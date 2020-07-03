@@ -6,8 +6,8 @@ class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
         sign_in_and_redirect @admin, event: :authentication
       else
-        session['devise.google_data'] = request.env['omniauth.auth'].except(:extra) # Removing extra as it can overflow some session stores
-        redirect_to new_admin_registration_url, alert: @admin.errors.full_messages.join("\n")
+        flash[:alert] = "You don't have an account"
+        redirect_to root_path
       end
   end
 end
