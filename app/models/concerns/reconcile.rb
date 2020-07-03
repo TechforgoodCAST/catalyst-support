@@ -17,7 +17,7 @@ module Reconcile
     else
       # If we're missing the org name, try to get it from the CharityDomainLookup
       lookup_orgs = chc_by_org_id(org_id)
-      name = lookup_orgs.first.name if lookup_orgs.!empty?
+      name = lookup_orgs.first.name if !lookup_orgs.empty?
       for_review = true if lookup_orgs.size > 1
     end
 
